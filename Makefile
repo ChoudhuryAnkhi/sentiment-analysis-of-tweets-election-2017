@@ -23,16 +23,21 @@ endif
 ## Install Python Dependencies
 requirements: test_environment
 	pip install -U pip setuptools wheel
-	pip install -r requirements.txt
+	pip install -r pip.requirements.txt
 
 ## Make Dataset
-data: #requirements
+data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
+	latexmk -cd -c reports/final
+
+## Make reports
+reports: report_deps
+	latexmk -cd -pdf reports/final
 
 ## Lint using flake8
 lint:

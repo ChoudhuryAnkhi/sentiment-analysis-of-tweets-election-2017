@@ -27,17 +27,21 @@ def main(rawdata_dir, processeddata_dir):
     list_files = os.listdir(rawdata_dir)
     pattern = '*.csv'
     list_files = [file for file in list_files if fnmatch(file, pattern)]
-    day_of_month =  lambda x: int(x[:2])
+    day_of_month = lambda x: int(x[:2])
     month_of_year = lambda x: int(x[3:5])
     list_files.sort(key=day_of_month)
     list_files.sort(key=month_of_year)
     column_dict = {'lang':12,
                    'text':4,
                    'id':0,
-                   'created_at':2}
+               'created_at':2}
     keys = ["id","created_at","text"]
     #filter english tweets and save them to processeddata_dir
     with open(os.path.join(processeddata_dir,'tweets.csv'),'w') as processed_data:
+      csv_writer = csv.writer(processed_data,
+                              delimiter=',',
+                              quotechar='"',
+                              quoting=csv.QUOTE_ALL)
       firstfile = True
       for file in list_files:
         neng = 0
@@ -51,16 +55,16 @@ def main(rawdata_dir, processeddata_dir):
             ntot += 1
             if ifheader:
               if firstfile:
-                print(",".join([row[column_dict[key]] for key in keys]),
-                      file=processed_data)
+                csv_writer.writerow(keys)
               else:
                 ifheader=False
                 continue
             else:
               if row[column_dict['lang']][:2]=='en':
                 neng += 1
-                print(",".join([row[column_dict[key]] for key in keys]),
-                      file=processed_data)
+                csv_writer.writerow([row[column_dict[key]] for key in keys])
+                # print(",".join([row[column_dict[key]] for key in keys]),
+                #      file=processed_data)
           if (firstfile):
             firstfile=False
         logger.info("""{} --> found {} english tweets out of {} ({:0.2f}%)""".format(file,neng,ntot,neng*100.0/ntot))
@@ -71,8 +75,6 @@ if __name__ == '__main__':
 
     # not used in this stub but often useful for finding various files
     project_dir = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
-    
-    
 
     # find .env automagically by walking up directories until it's found, then
     # load up the .env entries as environment variables
