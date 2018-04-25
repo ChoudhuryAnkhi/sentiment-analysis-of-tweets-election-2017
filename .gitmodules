@@ -1,0 +1,6 @@
+[submodule "mysubmodule"]
+	path = mysubmodule
+	url = https://git.overleaf.com/15760098fjcpnpvxqbzf
+[submodule "reports/project-report"]
+	path = reports/project-report
+	url = https://git.overleaf.com/15760098fjcpnpvxqbzf
