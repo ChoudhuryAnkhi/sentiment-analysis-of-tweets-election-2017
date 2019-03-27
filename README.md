@@ -1,7 +1,11 @@
-sklearn-senti-refactor
+Sentiment Analysis of English tweets related to German Federal Elections
 ==============================
 
 combine tweets about the German Federal Election 2017 and analyze sentiments for each of the candidates and their political parties.
+
+**Note:** I have put this code here for education or for showcasing my programming skills to potential employers. Please do not fork!!
+
+The `notebooks/*.ipynb` are interesting, as is `src/data/make_dataset.py`. 
 
 Project Organization
 ------------
